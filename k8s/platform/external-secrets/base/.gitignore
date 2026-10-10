@@ -1,0 +1,3 @@
+# Kustomize downloads the upstream chart here on demand.
+external-secrets-*/
+/*-chart/

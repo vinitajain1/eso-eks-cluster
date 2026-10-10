@@ -1,0 +1,9 @@
+.DS_Store
+# Helm charts kustomize downloads (any base folder)
+**/base/*-[0-9]*/
+**/base/*-chart/
+# rendered output and local credentials, just in case
+*.rendered.yaml
+.env
+*.pem
+kubeconfig*

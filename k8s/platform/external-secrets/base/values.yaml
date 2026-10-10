@@ -1,0 +1,35 @@
+replicaCount: 2
+image:
+  repository: EXTERNAL_SECRETS_IMAGE
+  tag: CHANGE_ME
+leaderElect: true
+installCRDs: true
+crds:
+  conversion:
+    enabled: false
+certController:
+  create: false
+webhook:
+  create: false
+metrics:
+  service:
+    enabled: true
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - general
+resources:
+  requests:
+    cpu: 25m
+    memory: 263M
+  limits:
+    cpu: 25m
+    memory: 263M

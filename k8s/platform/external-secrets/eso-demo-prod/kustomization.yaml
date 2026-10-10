@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+images:
+- name: EXTERNAL_SECRETS_IMAGE
+  newName: ghcr.io/external-secrets/external-secrets
+  newTag: v0.10.3
+
+labels:
+- pairs:
+    env: prod
+  includeTemplates: true
+
+helmGlobals:
+  chartHome: ../base
+
+helmCharts:
+  - name: external-secrets
+    repo: https://charts.external-secrets.io
+    version: 0.10.3
+    releaseName: external-secrets
+    namespace: external-secrets
+    valuesFile: ../base/values.yaml
+
+patches:
+- patch: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations:
+        eks.amazonaws.com/role-arn: arn:aws:iam::<aws_account_id>:role/k8s_eso-demo-prod_external_secrets
+      creationTimestamp: null
+      name: external-secrets
+      namespace: external-secrets
+
